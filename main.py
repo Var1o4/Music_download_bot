@@ -12,7 +12,12 @@ bot=telebot.TeleBot('6673049165:AAEQnWknMKTMQssnrJUwm3yPfGH6pSXtrPc')
 import yt_dlp
 
 
-# ...
+@bot.message_handler(commands=["start"])
+def start(message):
+    bot.send_message(message.chat.id, f"Здравствуйте, {message.from_user.last_name if message.from_user.last_name is not None else '' } {message.from_user.first_name}. Вставьте ссылку на на трек из spotify или видео yootube")
+
+
+
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
@@ -56,6 +61,8 @@ def handle_message(message):
     elif link_spotify:
         result =spotify.track(message.text)
         music(result, message, bot)
+    else:
+        bot.send_message(message.chat.id, "К сожадению это не та ссылка:(")
 
 
 bot.infinity_polling()
